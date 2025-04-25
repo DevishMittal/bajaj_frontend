@@ -11,21 +11,30 @@ const extractNumber = (str: string): number => {
     return match ? parseInt(match[0], 10) : 0;
 };
 
+// Helper function to get a safe image source URL
+const getSafeImageSrc = (photoUrl: string | null | undefined): string => {
+    // Check if photoUrl is a non-empty string and starts with http (basic validation)
+    if (typeof photoUrl === 'string' && photoUrl.trim() !== '' && photoUrl.startsWith('http')) {
+        return photoUrl;
+    }
+    // Otherwise, return the placeholder path
+    return '/placeholder-doctor.png';
+}
+
 export default function DoctorCard({ doctor }: DoctorCardProps) {
   const experienceYears = extractNumber(doctor.experience);
   const feeAmount = extractNumber(doctor.fees);
+  const imageSrc = getSafeImageSrc(doctor.photo);
 
   return (
     <div className="bg-white rounded-lg shadow p-4 flex flex-col sm:flex-row gap-4 items-start" data-testid="doctor-card">
       <div className="flex-shrink-0">
-          {/* Use placeholder if photo is missing */}
           <Image 
-            src={doctor.photo || '/placeholder-doctor.png'} 
+            src={imageSrc}
             alt={`Dr. ${doctor.name}`}
             width={80} 
             height={80}
             className="rounded-full object-cover border"
-            onError={(e) => { e.currentTarget.src = '/placeholder-doctor.png'; }} // Fallback for broken image links
           />
       </div>
       <div className="flex-grow">
