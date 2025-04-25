@@ -29,36 +29,40 @@ export default async function Home() {
   const allSpecialties = getUniqueSpecialties(doctors);
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-4 md:p-8 lg:p-12 bg-gray-50">
-      <header className="w-full max-w-5xl mb-8">
-         <ClientComponentWrapper>
-            <AutocompleteSearch doctors={doctors} />
-         </ClientComponentWrapper>
+    <main className="flex min-h-screen flex-col items-center bg-gray-50">
+      {/* Blue Header */}
+      <header className="w-full bg-blue-600 p-4 shadow-md sticky top-0 z-20">
+          <div className="w-full max-w-5xl mx-auto"> {/* Centering container */} 
+              <ClientComponentWrapper>
+                  <AutocompleteSearch doctors={doctors} />
+              </ClientComponentWrapper>
+          </div>
       </header>
       
-      {/* Main content area */}
-      <div className="w-full max-w-5xl">
-        {/* Sort Options above filters/list */}
-        <ClientComponentWrapper>
-            <SortOptions />
-        </ClientComponentWrapper>
-
-        {/* Filters and List */}
-        <div className="flex flex-col md:flex-row gap-8">
-          <aside className="w-full md:w-1/4">
+      {/* Main content area with padding */}
+      <div className="w-full max-w-5xl p-4 md:p-8"> {/* Add padding here */} 
+          {/* Sort Options */} 
+          <div className="mt-6"> {/* Add margin-top to push content below header */} 
             <ClientComponentWrapper>
-                <FilterPanel allSpecialties={allSpecialties} /> 
+              <SortOptions />
             </ClientComponentWrapper>
-          </aside>
-
-          <section className="w-full md:w-3/4">
-            {/* Replace placeholder with DoctorList wrapped in Suspense */}
-             <ClientComponentWrapper>
-                 <DoctorList doctors={doctors} />
-             </ClientComponentWrapper>
-          </section>
+          </div>
+  
+          {/* Filters and List */}
+          <div className="flex flex-col md:flex-row gap-8">
+            <aside className="w-full md:w-1/4">
+              <ClientComponentWrapper>
+                  <FilterPanel allSpecialties={allSpecialties} /> 
+              </ClientComponentWrapper>
+            </aside>
+  
+            <section className="w-full md:w-3/4">
+               <ClientComponentWrapper>
+                   <DoctorList doctors={doctors} />
+               </ClientComponentWrapper>
+            </section>
+          </div>
         </div>
-      </div>
     </main>
   );
 }

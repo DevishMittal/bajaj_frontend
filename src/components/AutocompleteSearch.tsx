@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Doctor } from '@/types';
+import Image from 'next/image';
 
 interface AutocompleteSearchProps {
   doctors: Doctor[];
@@ -81,29 +82,50 @@ export default function AutocompleteSearch({ doctors }: AutocompleteSearchProps)
   };
 
   return (
-    <div className="relative w-full max-w-md mx-auto">
-      <input
-        type="text"
-        value={searchTerm}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyDown}
-        onFocus={handleFocus} // Use dedicated handler
-        onBlur={handleBlur}
-        placeholder="Search Symptoms, Doctors, Specialists, Clinics"
-        className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        data-testid="autocomplete-input"
-      />
-      {/* Only show suggestions if focused and suggestions exist */}
+    <div className="relative w-full">
+      <div className="relative">
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          placeholder="Search Symptoms, Doctors, Specialists, Clinics"
+          className="w-full px-4 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent"
+          data-testid="autocomplete-input"
+        />
+        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-400">
+             <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+           </svg>
+        </div>
+      </div>
       {isFocused && suggestions.length > 0 && (
-        <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
+        <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-72 overflow-auto">
           {suggestions.map((doctor) => (
             <li
               key={doctor.id}
               onClick={() => handleSuggestionClick(doctor.name)}
-              className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+              className="px-3 py-2 cursor-pointer hover:bg-gray-100 flex items-center gap-3"
               data-testid="suggestion-item"
             >
-              {doctor.name}
+               <Image 
+                  src={doctor.photo ? doctor.photo : '/placeholder-doctor.png'} 
+                  alt={`Dr. ${doctor.name}`} 
+                  width={40}
+                  height={40} 
+                  className="rounded-full object-cover flex-shrink-0"
+                />
+                <div className="flex-grow">
+                  <div className="font-medium text-sm text-gray-800">{doctor.name}</div>
+                  <div className="text-xs text-gray-500">
+                    {doctor.specialities.map(s => s.name).join(', ') || 'Specialty not listed'}
+                  </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-gray-400 flex-shrink-0">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                </svg>
             </li>
           ))}
         </ul>
