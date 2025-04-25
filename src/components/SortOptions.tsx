@@ -33,8 +33,8 @@ export default function SortOptions() {
   };
 
   return (
-    <div className="p-4 mb-6 bg-white rounded-md shadow">
-      <h3 className="text-lg font-semibold mb-3" data-testid="filter-header-sort">Sort by</h3>
+    <div>
+      <h3 className="text-lg font-semibold mb-3 text-gray-800" data-testid="filter-header-sort">Sort by</h3>
       <div className="space-y-2">
         <div>
           <input
@@ -47,7 +47,7 @@ export default function SortOptions() {
             className="mr-2"
             data-testid="sort-fees"
           />
-          <label htmlFor="sort-fees">Price: Low-High</label>
+          <label htmlFor="sort-fees" className="text-sm text-gray-700">Fees:Low-High</label>
         </div>
         <div>
           <input
@@ -60,7 +60,7 @@ export default function SortOptions() {
             className="mr-2"
             data-testid="sort-experience"
           />
-          <label htmlFor="sort-experience">Experience: Most Experience first</label>
+          <label htmlFor="sort-experience" className="text-sm text-gray-700">Experience: Most Experience first</label>
         </div>
       </div>
     </div>
