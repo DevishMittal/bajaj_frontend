@@ -80,27 +80,26 @@ export default function FilterPanel({ allSpecialties }: FilterPanelProps) {
     <div className="p-4 bg-white rounded-md shadow space-y-6">
        {/* Mode of Consultation Filter */}
       <div>
-        <h3 className="text-lg font-semibold mb-3" data-testid="filter-header-moc">Mode of consultation</h3>
+        <h3 className="text-lg font-semibold mb-3 text-gray-800" data-testid="filter-header-moc">Mode of consultation</h3>
         <div className="space-y-2">
-          {/* Radio buttons remain the same */}
           <div>
              <input type="radio" id="video-consult" name="consultationMode" value="video" checked={selectedMode === 'video'} onChange={handleModeChange} className="mr-2" data-testid="filter-video-consult" />
-             <label htmlFor="video-consult">Video Consultation</label>
+             <label htmlFor="video-consult" className="text-sm text-gray-700">Video Consultation</label>
           </div>
           <div>
              <input type="radio" id="in-clinic" name="consultationMode" value="in_clinic" checked={selectedMode === 'in_clinic'} onChange={handleModeChange} className="mr-2" data-testid="filter-in-clinic" />
-             <label htmlFor="in-clinic">In-clinic Consultation</label>
+             <label htmlFor="in-clinic" className="text-sm text-gray-700">In-clinic Consultation</label>
            </div>
            <div>
              <input type="radio" id="all" name="consultationMode" value="all" checked={selectedMode === 'all'} onChange={handleModeChange} className="mr-2" />
-             <label htmlFor="all">All</label>
+             <label htmlFor="all" className="text-sm text-gray-700">All</label>
            </div>
         </div>
       </div>
 
       {/* Specialties Filter */}
       <div>
-        <h3 className="text-lg font-semibold mb-3" data-testid="filter-header-speciality">Specialities</h3>
+        <h3 className="text-lg font-semibold mb-3 text-gray-800" data-testid="filter-header-speciality">Specialities</h3>
         <div className="space-y-2 max-h-60 overflow-y-auto pr-2"> {/* Added scroll for long lists */} 
           {allSpecialties.sort().map(specialty => (
             <div key={specialty}>
@@ -113,7 +112,7 @@ export default function FilterPanel({ allSpecialties }: FilterPanelProps) {
                 className="mr-2"
                 data-testid={`filter-specialty-${specialty.replace(/\/| /g, '-')}`}
               />
-              <label htmlFor={`specialty-${specialty}`}>{specialty}</label>
+              <label htmlFor={`specialty-${specialty}`} className="text-sm text-gray-700">{specialty}</label>
             </div>
           ))}
         </div>
