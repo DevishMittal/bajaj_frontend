@@ -25,24 +25,24 @@ export default function AutocompleteSearch({ doctors }: AutocompleteSearchProps)
     } else {
       params.delete('search');
     }
-    // Preserve other params, construct new URL
     router.push(`/?${params.toString()}`, { scroll: false });
   }, [searchParams, router]);
 
 
-  // Effect to update suggestions based on searchTerm
+  // Effect to calculate suggestions based only on searchTerm
   useEffect(() => {
-    if (searchTerm.trim().length > 0 && isFocused) {
+    if (searchTerm.trim().length > 0) {
       const filtered = doctors
         .filter(doctor =>
           doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
-        .slice(0, 3); // Limit to top 3 suggestions
+        .slice(0, 3);
       setSuggestions(filtered);
     } else {
       setSuggestions([]);
     }
-  }, [searchTerm, doctors, isFocused]);
+  // Only re-run calculation when searchTerm or doctors change
+  }, [searchTerm, doctors]); 
 
   // Effect to sync component state with URL on mount/back/forward navigation
    useEffect(() => {
@@ -55,18 +55,22 @@ export default function AutocompleteSearch({ doctors }: AutocompleteSearchProps)
   };
 
   const handleSuggestionClick = (doctorName: string) => {
-    setSearchTerm(doctorName);
-    setSuggestions([]);
-    setIsFocused(false);
+    setSearchTerm(doctorName); 
+    // No need to manually set suggestions here, useEffect will handle it based on new searchTerm
+    setIsFocused(false); // Hide suggestions immediately
     updateSearchQuery(doctorName);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      setSuggestions([]);
-      setIsFocused(false);
-       updateSearchQuery(searchTerm);
+      // No need to manually set suggestions here
+      setIsFocused(false); // Hide suggestions
+      updateSearchQuery(searchTerm); 
     }
+  };
+
+  const handleFocus = () => {
+    setIsFocused(true);
   };
 
   const handleBlur = () => {
@@ -83,13 +87,14 @@ export default function AutocompleteSearch({ doctors }: AutocompleteSearchProps)
         value={searchTerm}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        onFocus={() => setIsFocused(true)}
+        onFocus={handleFocus} // Use dedicated handler
         onBlur={handleBlur}
         placeholder="Search Symptoms, Doctors, Specialists, Clinics"
         className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         data-testid="autocomplete-input"
       />
-      {suggestions.length > 0 && (
+      {/* Only show suggestions if focused and suggestions exist */}
+      {isFocused && suggestions.length > 0 && (
         <ul className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-auto">
           {suggestions.map((doctor) => (
             <li
