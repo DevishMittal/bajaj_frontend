@@ -41,16 +41,15 @@ export default async function Home() {
       
       {/* Main content area with padding */}
       <div className="w-full max-w-5xl p-4 md:p-8"> {/* Add padding here */} 
-          {/* Sort Options */} 
-          <div className="mt-6"> {/* Add margin-top to push content below header */} 
-            <ClientComponentWrapper>
-              <SortOptions />
-            </ClientComponentWrapper>
-          </div>
-  
           {/* Filters and List */}
-          <div className="flex flex-col md:flex-row gap-8">
-            <aside className="w-full md:w-1/4">
+          <div className="flex flex-col md:flex-row gap-8 mt-6"> {/* Added mt-6 here */} 
+            <aside className="w-full md:w-1/4 space-y-6"> {/* Added space-y-6 */} 
+              {/* Sort Options now inside aside */}
+              <ClientComponentWrapper>
+                  <SortOptions />
+              </ClientComponentWrapper>
+              
+              {/* Filter Panel */}
               <ClientComponentWrapper>
                   <FilterPanel allSpecialties={allSpecialties} /> 
               </ClientComponentWrapper>
