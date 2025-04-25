@@ -2,6 +2,7 @@ import { fetchDoctors } from "@/lib/api";
 import AutocompleteSearch from "@/components/AutocompleteSearch";
 import FilterPanel from "@/components/FilterPanel";
 import SortOptions from "@/components/SortOptions";
+import DoctorList from "@/components/DoctorList";
 import { Suspense } from "react";
 import { Doctor } from "@/types"; // Import Doctor type
 
@@ -51,9 +52,10 @@ export default async function Home() {
           </aside>
 
           <section className="w-full md:w-3/4">
-            {/* Doctor List will go here */}
-            <h2 className="text-xl font-semibold mb-4">Doctors</h2> {/* Remove count for now */}
-            {/* We will map over filtered/sorted doctors here later */}
+            {/* Replace placeholder with DoctorList wrapped in Suspense */}
+             <ClientComponentWrapper>
+                 <DoctorList doctors={doctors} />
+             </ClientComponentWrapper>
           </section>
         </div>
       </div>
